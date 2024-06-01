@@ -97,7 +97,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", " MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "IORespondingTime"))
         self.groupBox.setTitle(_translate("MainWindow", " 选择文件区"))
         self.pushButton.setText(_translate("MainWindow", " 选择文件"))
         self.pushButton_2.setText(_translate("MainWindow", " 生成折线图"))

@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import QFileInfo
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog, QVBoxLayout, QApplication, QMessageBox
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from pyqt5_plugins.examplebutton import QtWidgets
+from PyQt5 import QtWidgets
 from page1 import Ui_Form
 from windowpage import Ui_MainWindow
 from helpdiaglog import Ui_Dialog
@@ -110,6 +110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def Getsichuan(self):
         self.brand = '01'
+
 
 class HelpDiaglog(QDialog, Ui_Dialog):
     def __init__(self):

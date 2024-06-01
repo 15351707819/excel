@@ -100,8 +100,8 @@ def DrawBar(inputpath, brand):
     # 给x轴赋值
     bins = [min_val + i * bin_width for i in range(num_bins)]
     bins.append(max_val)
-    for bin in bins[:-1]:
-        print(bin)
+    # for bin in bins[:-1]:
+    #     print(bin)
     # bins = []
     # for i in range(num_bins):
     #     x_value = min_val+i*bin_width
@@ -129,16 +129,8 @@ def DrawBar(inputpath, brand):
     plt.ylabel('count')
     for bar in mybar:
         height = bar.get_height()
-        plt.text(
-            bar.get_x() +
-            bar.get_width() /
-            2 -
-            0.1,
-            height + 0.1,
-            '%s' %
-            int(height),
-            size=10)
-    plt.title('Histogram of Data')
+        plt.text(bar.get_x() + bar.get_width() / 2 - 0.2, height + 0.3, '%s' % int(height), size=10)
+    plt.title(' IO \'s   responding   time ')
     plt.show()
 
 
