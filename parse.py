@@ -2,7 +2,7 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
+
 # my_list = []
 # df = pd.read_excel('1000.xlsx')
 # test_data = df.iloc[:, 1]

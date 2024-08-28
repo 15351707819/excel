@@ -5,7 +5,6 @@ from PyQt5.QtCore import QFileInfo
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog, QVBoxLayout, QApplication, QMessageBox
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5 import QtWidgets
-from page1 import Ui_Form
 from windowpage import Ui_MainWindow
 from helpdiaglog import Ui_Dialog
 import parse
