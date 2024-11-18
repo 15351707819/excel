@@ -1,6 +1,7 @@
 import os
 
 import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt2
 import pandas as pd
 
 # my_list = []
@@ -71,7 +72,7 @@ def Toexcel(inputpath, brand):
 
 def DrawPlot(inputpath, brand):
     result_excel = Excel_Data(inputpath, brand)
-    result_excel.to_excel('result.xlsx', index=True)
+    # result_excel.to_excel('result.xlsx', index=True)
     x = result_excel.index
     y = result_excel['diff'] * 1000
     plt.plot(
@@ -84,7 +85,6 @@ def DrawPlot(inputpath, brand):
         markersize=3)
     plt.ylim(0, 20)
     myexcel1 = plt.gcf()
-    plt.show()
     return myexcel1
 
 
@@ -115,23 +115,23 @@ def DrawBar(inputpath, brand):
             if bins_start <= d < bins[bins.index(bins_start) + 1]:
                 counts[bins_start] += 1
     # ######## 绘制柱状图 ########
-    mybar = plt.bar(
+    mybar = plt2.bar(
         range(
             1,
             num_bins + 1),
         counts.values(),
         align='center',
         width=0.5)
-    plt.xticks(range(1, num_bins + 1),
+    plt2.xticks(range(1, num_bins + 1),
                ['[{:.1f}-{:.1f})'.format(bins[i],
                                          bins[i + 1]) for i in range(num_bins)])
-    plt.xlabel('t/ms')
-    plt.ylabel('count')
+    plt2.xlabel('t/ms')
+    plt2.ylabel('count')
     for bar in mybar:
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2 - 0.2, height + 0.3, '%s' % int(height), size=10)
-    plt.title(' IO \'s   responding   time ')
-    plt.show()
+        plt2.text(bar.get_x() + bar.get_width() / 2 - 0.2, height + 0.3, '%s' % int(height), size=10)
+    plt2.title(' IO \'s   responding   time ')
+    plt2.show()
 
 
 def GetMaxValue(inputpath, brand):

@@ -2,7 +2,7 @@ import sys
 
 
 from PyQt5.QtCore import QFileInfo
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog, QVBoxLayout, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog, QVBoxLayout, QApplication, QMessageBox, QWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5 import QtWidgets
 from windowpage import Ui_MainWindow
@@ -10,7 +10,7 @@ from helpdiaglog import Ui_Dialog
 import parse
 
 
-class PlotWindow(QDialog):
+class PlotWindow(QWidget):
     def __init__(self, figure):
         super().__init__()
         self.figure = figure
@@ -23,6 +23,7 @@ class PlotWindow(QDialog):
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.plot_window = None
         self.figure = None
         self.input_path = None
         self.brand = '10'
@@ -58,8 +59,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
             self.figure = parse.DrawPlot(self.input_path, self.brand)
-            plot_window = PlotWindow(self.figure)
-            plot_window.exec_()
+            self.plot_window = PlotWindow(self.figure)
+            self.plot_window.show()
+            self.plot_window.closeEvent = self.Draw_Window_Close
+        #    plot_window.exec_()
+
+    def Draw_Window_Close(self, event):
+        self.plot_window = None
+        event.accept()
 
     def DrawBBB(self):
         if self.flag == 0:

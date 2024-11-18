@@ -1,43 +1,42 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QLabel
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QMenu, QToolBar
-from PyQt5.QtGui import QIcon
+
+class SecondWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("第二个窗口")
+        layout = QVBoxLayout()
+        self.label = QLabel("这是第二个窗口")
+        layout.addWidget(self.label)
+        self.setLayout(layout)
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("主窗口")
+        self.button = QPushButton("打开第二个窗口")
+        self.button.clicked.connect(self.open_second_window)
+        self.setCentralWidget(self.button)
 
-        self.initUI()
+        self.second_window = None  # 创建一个变量存储第二个窗口
 
-    def initUI(self):
-        # 创建帮助按钮
-        help_action = QAction(QIcon('help_icon.png'), 'Help', self)
-        help_action.setShortcut('Ctrl+H')
-        help_action.triggered.connect(self.show_help)
+    def open_second_window(self):
+        if not self.second_window:
+            self.second_window = SecondWindow()
+            self.second_window.show()
+            # 连接第二个窗口的关闭事件
+            self.second_window.closeEvent = self.on_second_window_close
 
-        # 创建帮助菜单
-        help_menu = QMenu(self)
-        help_menu.addAction(help_action)
-
-        # 创建菜单栏并添加菜单
-        menu_bar = self.menuBar()
-        menu_bar.addMenu(help_menu)
-
-        # 创建工具栏并添加按钮
-        toolbar = QToolBar(self)
-        self.addToolBar(toolbar)
-        toolbar.addAction(help_action)
-
-        self.setWindowTitle('Help Button Example')
-        self.setGeometry(100, 100, 300, 200)
-        self.show()
-
-    def show_help(self):
-        # 处理帮助操作的逻辑
-        print('Help action triggered')
+    def on_second_window_close(self, event):
+        # 当第二个窗口关闭时，清除其引用
+        self.second_window = None
+        event.accept()  # 接受关闭事件
 
 
-if __name__ == '__main__':
-    app = QApplication([])
-    window = MainWindow()
-    app.exec_()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec_())
