@@ -12,55 +12,100 @@ import pandas as pd
 
 
 def read_table(inputpath):
-    filetype = os.path.splitext(inputpath)[-1]
-    if filetype == '.csv':
-        filename = os.path.splitext(inputpath)[0]  # 提取输入 CSV 文件的文件名
-        output_file = f"{filename}.xlsx"  # 输出 Excel 文件名与输入 CSV 文件名保持一致
-        df2 = pd.read_csv(inputpath)
-        df2.to_excel(output_file, index=False)
-        df1 = pd.read_excel(output_file)
-        return df1
-    elif filetype == '.xlsx':
-        df1 = pd.read_excel(inputpath)
-        return df1
-    elif inputpath is None:
+    if inputpath is None:
         return 10
+
+    filetype = os.path.splitext(inputpath)[-1].lower()
+
+    if filetype == '.csv':
+        filename = os.path.splitext(inputpath)[0]
+        output_file = f"{filename}.xlsx"
+
+        try:
+            # 添加COMMENT=';'，就是忽略掉注释的地方comment=';'：如果某行以 ; 开头，该行会被作为注释行跳过，不会被读取。
+            # quotechar="'"：用单引号 ' 来包裹含有特殊字符或分隔符的字段内容。
+            # on_bad_lines='skip'：遇到格式有问题的行时，将跳过，不会报错。
+            df2 = pd.read_csv(inputpath, encoding='utf-8', sep=',', comment=';', quotechar="'", on_bad_lines='skip')
+        except Exception as e:
+            print(f"Error reading CSV: {e}")
+            return None
+
+        try:
+            df2.to_excel(output_file, index=False)
+            df1 = pd.read_excel(output_file)
+            return df1
+        except Exception as e:
+            print(f"Error converting/reading Excel: {e}")
+            return None
+
+    elif filetype == '.xlsx':
+        try:
+            df1 = pd.read_excel(inputpath)
+            return df1
+        except Exception as e:
+            print(f"Error reading Excel: {e}")
+            return None
 
 
 #  生成一个数据列表，筛选相邻数据为1 0 的数据
 
 
-def column_data(inputpath, brand):
+def column_data(inputpath, brand, logic):
+    print(1)
     my_data = []
     dataframe = read_table(inputpath)
-    column1_data = dataframe.iloc[:, 1]
-    column0_data = dataframe.iloc[:, 0]
-    if brand == '10':
-        for i in range(0, len(column1_data) - 1):
-            # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
-            # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
-            if column1_data[i] == 0 and column1_data[i + 1] == 1:
-                value = column0_data[i + 1] - column0_data[i]
-                if 0.1 / 1000 < value < 20.0 / 1000:
+    if logic == 'k':
+        column1_data = dataframe.iloc[:, 1]
+        column0_data = dataframe.iloc[:, 0]
+        if brand == '10':
+            for i in range(0, len(column1_data) - 1):
+                # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
+                # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
+                if column1_data[i] == 0 and column1_data[i + 1] == 1:
+                    value = column0_data[i + 1] - column0_data[i]
+                    if 0.1 / 1000 < value < 20.0 / 1000:
+                        my_data.append(
+                            [column0_data[i], column0_data[i+1], value])
+        elif brand == '01':
+            for i in range(0, len(column1_data) - 1):
+                # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
+                # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
+                if column1_data[i] == 1 and column1_data[i + 1] == 0:
+                    value = column0_data[i + 1] - column0_data[i]
+                    if 0.1 / 1000 < value < 20.0 / 1000:
+                        my_data.append(
+                            [column0_data[i + 1], column0_data[i], value])
+    elif logic == 'z':
+        column1_data = dataframe.iloc[:, 3]  # 正点原子第4列数据
+        column0_data = dataframe.iloc[:, 1]  # 正点原子第2列数据
+        if brand == '01':
+            for i in range(0, len(column1_data) - 1):
+                # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
+                # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
+                if column1_data[i] == 0 and column1_data[i + 1] == 1:
+                    value = column0_data[i + 1] - column0_data[i]
+                    if 0.1 / 1000 < value < 20.0 / 1000:
+                        my_data.append(
+                            [column0_data[i], column0_data[i+1], value])
+        elif brand == '10':
+            for i in range(0, len(column1_data) - 1):
+                # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
+                # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
+                if column1_data[i] == 1 and column1_data[i + 1] == 0:
+                    value = column0_data[i + 1] - column0_data[i]
+                    # if 0.1 / 1000 < value < 20.0 / 1000:
                     my_data.append(
-                        [column0_data[i + 1], column0_data[i], value])
-    elif brand == '01':
-        for i in range(0, len(column1_data) - 1):
-            # 四川零点使用column1_data[i] == 0 and column1_data[i + 1] == 1
-            # 信捷使用column1_data[i] == 1 and column1_data[i + 1] == 0
-            if column1_data[i] == 1 and column1_data[i + 1] == 0:
-                value = column0_data[i + 1] - column0_data[i]
-                if 0.1 / 1000 < value < 20.0 / 1000:
-                    my_data.append(
-                        [column0_data[i + 1], column0_data[i], value])
+                            [column0_data[i], column0_data[i+1], value])
+    else:
+        print(logic)
     return my_data
 
 # 生成一个表格数据
 
 
-def Excel_Data(inputpath, brand):
+def Excel_Data(inputpath, brand, logic):
     Mydata_Frame = pd.DataFrame(
-        column_data(inputpath, brand), columns=[
+        column_data(inputpath, brand, logic), columns=[
             'i', 'i+1', 'diff'])
     return Mydata_Frame
 
@@ -70,11 +115,12 @@ def Toexcel(inputpath, brand):
     result_excel.to_excel('result.xlsx', index=True)
 
 
-def DrawPlot(inputpath, brand):
-    result_excel = Excel_Data(inputpath, brand)
-    # result_excel.to_excel('result.xlsx', index=True)
+def DrawPlot(inputpath, brand,logic):
+    result_excel = Excel_Data(inputpath, brand,logic)
+    result_excel.to_excel('result.xlsx', index=True)
     x = result_excel.index
     y = result_excel['diff'] * 1000
+    myexcel1=plt.figure()
     plt.plot(
         x,
         y,
@@ -83,13 +129,13 @@ def DrawPlot(inputpath, brand):
         linestyle='-',
         linewidth=0.5,
         markersize=3)
-    plt.ylim(0, 20)
-    myexcel1 = plt.gcf()
+    plt.ylim(0, 100)
+    plt.show()
     return myexcel1
 
 
-def DrawBar(inputpath, brand):
-    result_excel = Excel_Data(inputpath,brand)
+def DrawBar(inputpath, brand,logic):
+    result_excel = Excel_Data(inputpath,brand,logic)
     value = round(result_excel['diff'] * 1000, 1)
     num_bins = 10
     # 计算最小值和最大值
@@ -115,6 +161,7 @@ def DrawBar(inputpath, brand):
             if bins_start <= d < bins[bins.index(bins_start) + 1]:
                 counts[bins_start] += 1
     # ######## 绘制柱状图 ########
+    outbar=plt2.figure()
     mybar = plt2.bar(
         range(
             1,
@@ -131,25 +178,26 @@ def DrawBar(inputpath, brand):
         height = bar.get_height()
         plt2.text(bar.get_x() + bar.get_width() / 2 - 0.2, height + 0.3, '%s' % int(height), size=10)
     plt2.title(' IO \'s   responding   time ')
-    plt2.show()
+    return outbar
 
 
-def GetMaxValue(inputpath, brand):
-    result_excel = Excel_Data(inputpath, brand)
+def GetMaxValue(inputpath, brand, logic):
+    result_excel = Excel_Data(inputpath, brand, logic)
     value = result_excel['diff']
     MaxValue = max(value)
     return round(MaxValue * 1000, 6)
 
 
-def GetMinValue(inputpath, brand):
-    result_excel = Excel_Data(inputpath, brand)
+def GetMinValue(inputpath, brand, logic):
+   # read_table(inputpath)
+    result_excel = Excel_Data(inputpath, brand, logic)
     value = result_excel['diff']
     MinValue = min(value)
     return round(MinValue * 1000, 6)
 
 
-def GetAverageValue(inputpath, brand):
-    result_excel = Excel_Data(inputpath, brand)
+def GetAverageValue(inputpath, brand, logic):
+    result_excel = Excel_Data(inputpath, brand, logic)
     value = result_excel['diff']
     length = len(value)
     sumvalue = sum(value)
@@ -157,8 +205,8 @@ def GetAverageValue(inputpath, brand):
     return average
 
 
-def GetCounts(inputpath, brand):
-    result_excel = Excel_Data(inputpath, brand)
+def GetCounts(inputpath, brand, logic):
+    result_excel = Excel_Data(inputpath, brand, logic)
     value = result_excel['diff']
     length = len(value)
     return length

@@ -20,13 +20,26 @@ class PlotWindow(QWidget):
         self.setLayout(layout)
 
 
+class PlotWindow1(QWidget):
+    def __init__(self, figure1):
+        super().__init__()
+        self.figure1 = figure1
+        self.canvas = FigureCanvas(self.figure1)
+        layout = QVBoxLayout()
+        layout.addWidget(self.canvas)
+        self.setLayout(layout)
+
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.plot_window = None
+        self.plot_window1 = None
         self.figure = None
+        self.figure1 = None
         self.input_path = None
         self.brand = '10'
+        self.logic = 'k'
         self.flag = 0
         self.setupUi(self)
         self.pushButton.clicked.connect(self.upload)
@@ -39,6 +52,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionhelp.triggered.connect(self.HelpMessage)
         self.xinje.clicked.connect(self.GetXinje)
         self.sichuan.clicked.connect(self.Getsichuan)
+        self.KVIS.clicked.connect(self.GetKVIS)
+        self.ZD.clicked.connect(self.GetZd)
 
     def upload(self):
         wordfile, _ = QFileDialog.getOpenFileName(
@@ -58,7 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            self.figure = parse.DrawPlot(self.input_path, self.brand)
+            self.figure = parse.DrawPlot(self.input_path, self.brand, self.logic)
             self.plot_window = PlotWindow(self.figure)
             self.plot_window.show()
             self.plot_window.closeEvent = self.Draw_Window_Close
@@ -73,14 +88,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            parse.DrawBar(self.input_path, self.brand)
+            self.figure1 = parse.DrawBar(self.input_path, self.brand, self.logic)
+            self.plot_window1 = PlotWindow1(self.figure1)
+            self.plot_window1.show()
+            self.plot_window1.closeEvent = self.Draw_Window_Close1
+
+    def Draw_Window_Close1(self, event):
+        self.plot_window1 = None
+        event.accept()
 
     def GetMax(self):
         if self.flag == 0:
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            maxvalue1 = parse.GetMaxValue(self.input_path, self.brand)
+            maxvalue1 = parse.GetMaxValue(self.input_path, self.brand, self.logic)
             self.maxvalue.setText(str(maxvalue1))
 
     def GetMin(self):
@@ -88,7 +110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            minvalue1 = parse.GetMinValue(self.input_path, self.brand)
+            minvalue1 = parse.GetMinValue(self.input_path, self.brand, self.logic)
             self.minvalue.setText(str(minvalue1))
 
     def GetAvg(self):
@@ -96,7 +118,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,,请选择文件")
         elif self.flag == 1:
-            avervalue1 = parse.GetAverageValue(self.input_path, self.brand)
+            avervalue1 = parse.GetAverageValue(self.input_path, self.brand, self.logic)
             self.avervalue.setText(str(avervalue1))
 
     def GetCount(self):
@@ -104,7 +126,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            counts = parse.GetCounts(self.input_path, self.brand)
+            counts = parse.GetCounts(self.input_path, self.brand, self.logic)
             self.countsvalue.setText(str(counts))
 
     def HelpMessage(self):
@@ -116,6 +138,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def Getsichuan(self):
         self.brand = '01'
+
+    def GetKVIS(self):
+        self.logic = 'k'
+
+    def GetZd(self):
+        self.logic = 'z'
+        print(self.logic)
+
 
 
 class HelpDiaglog(QDialog, Ui_Dialog):
