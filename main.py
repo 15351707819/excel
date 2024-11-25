@@ -20,11 +20,23 @@ class PlotWindow(QWidget):
         self.setLayout(layout)
 
 
+class PlotWindow1(QWidget):
+    def __init__(self, figure1):
+        super().__init__()
+        self.figure1 = figure1
+        self.canvas = FigureCanvas(self.figure1)
+        layout = QVBoxLayout()
+        layout.addWidget(self.canvas)
+        self.setLayout(layout)
+
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.plot_window = None
+        self.plot_window1 = None
         self.figure = None
+        self.figure1 = None
         self.input_path = None
         self.brand = '10'
         self.flag = 0
@@ -73,7 +85,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            parse.DrawBar(self.input_path, self.brand)
+            self.figure1 = parse.DrawBar(self.input_path, self.brand)
+            self.plot_window1 = PlotWindow1(self.figure1)
+            self.plot_window1.show()
+            self.plot_window1.closeEvent = self.Draw_Window_Close1
+
+    def Draw_Window_Close1(self, event):
+        self.plot_window1 = None
+        event.accept()
 
     def GetMax(self):
         if self.flag == 0:

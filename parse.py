@@ -75,6 +75,7 @@ def DrawPlot(inputpath, brand):
     # result_excel.to_excel('result.xlsx', index=True)
     x = result_excel.index
     y = result_excel['diff'] * 1000
+    myexcel1=plt.figure()
     plt.plot(
         x,
         y,
@@ -84,7 +85,6 @@ def DrawPlot(inputpath, brand):
         linewidth=0.5,
         markersize=3)
     plt.ylim(0, 20)
-    myexcel1 = plt.gcf()
     return myexcel1
 
 
@@ -115,6 +115,7 @@ def DrawBar(inputpath, brand):
             if bins_start <= d < bins[bins.index(bins_start) + 1]:
                 counts[bins_start] += 1
     # ######## 绘制柱状图 ########
+    outbar=plt2.figure()
     mybar = plt2.bar(
         range(
             1,
@@ -131,7 +132,7 @@ def DrawBar(inputpath, brand):
         height = bar.get_height()
         plt2.text(bar.get_x() + bar.get_width() / 2 - 0.2, height + 0.3, '%s' % int(height), size=10)
     plt2.title(' IO \'s   responding   time ')
-    plt2.show()
+    return outbar
 
 
 def GetMaxValue(inputpath, brand):
