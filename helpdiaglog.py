@@ -33,5 +33,6 @@ class Ui_Dialog(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">  版   本：V1.0</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">  使用说明：</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        1、本软件只适用于测试AP的IO响应性能，使用逻辑分析仪抓的第一个通道应该是AP上面的IO电平变化，第二个被测通道是PLC本体上的IO电平变化；</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        2、需要关注Y端子被点亮的逻辑，信捷是低电平点灯，四川零点是高电平点灯。</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        1、本软件只适用于测试AP的IO响应性能</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        2、需要关注Y端子被点亮的逻辑，信捷是低电平点灯，四川零点是高电平点灯。</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">        3、被测通道excel列号指的是:使用逻辑分析仪抓的通道,选择AP上面的IO电平变化对应的通道</p></body></html>"))

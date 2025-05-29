@@ -40,6 +40,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.input_path = None
         self.brand = '10'
         self.logic = 'k'
+        self.channel = 1
         self.flag = 0
         self.setupUi(self)
         self.pushButton.clicked.connect(self.upload)
@@ -54,6 +55,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.sichuan.clicked.connect(self.Getsichuan)
         self.KVIS.clicked.connect(self.GetKVIS)
         self.ZD.clicked.connect(self.GetZd)
+        self.tongdao1.clicked.connect(self.GetChannel1)
+        self.tongdao2.clicked.connect(self.GetChannel2)
+
 
     def upload(self):
         wordfile, _ = QFileDialog.getOpenFileName(
@@ -73,7 +77,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            self.figure = parse.DrawPlot(self.input_path, self.brand, self.logic)
+            self.figure = parse.DrawPlot(
+                self.input_path, self.brand, self.logic, self.channel)
             self.plot_window = PlotWindow(self.figure)
             self.plot_window.show()
             self.plot_window.closeEvent = self.Draw_Window_Close
@@ -88,7 +93,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            self.figure1 = parse.DrawBar(self.input_path, self.brand, self.logic)
+            self.figure1 = parse.DrawBar(
+                self.input_path, self.brand, self.logic, self.channel)
             self.plot_window1 = PlotWindow1(self.figure1)
             self.plot_window1.show()
             self.plot_window1.closeEvent = self.Draw_Window_Close1
@@ -102,7 +108,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            maxvalue1 = parse.GetMaxValue(self.input_path, self.brand, self.logic)
+            maxvalue1 = parse.GetMaxValue(
+                self.input_path, self.brand, self.logic, self.channel)
             self.maxvalue.setText(str(maxvalue1))
 
     def GetMin(self):
@@ -110,7 +117,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            minvalue1 = parse.GetMinValue(self.input_path, self.brand, self.logic)
+            minvalue1 = parse.GetMinValue(
+                self.input_path, self.brand, self.logic,self.channel)
             self.minvalue.setText(str(minvalue1))
 
     def GetAvg(self):
@@ -118,7 +126,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,,请选择文件")
         elif self.flag == 1:
-            avervalue1 = parse.GetAverageValue(self.input_path, self.brand, self.logic)
+            avervalue1 = parse.GetAverageValue(
+                self.input_path, self.brand, self.logic, self.channel)
             self.avervalue.setText(str(avervalue1))
 
     def GetCount(self):
@@ -126,7 +135,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.information(
                 window.centralWidget(), "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
-            counts = parse.GetCounts(self.input_path, self.brand, self.logic)
+            counts = parse.GetCounts(self.input_path, self.brand, self.logic,self.channel)
             self.countsvalue.setText(str(counts))
 
     def HelpMessage(self):
@@ -144,8 +153,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def GetZd(self):
         self.logic = 'z'
-        print(self.logic)
 
+    def GetChannel1(self):
+        self.channel = 1
+
+    def GetChannel2(self):
+        self.channel = 2
 
 
 class HelpDiaglog(QDialog, Ui_Dialog):

@@ -149,7 +149,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>50</y>
+       <y>60</y>
        <width>72</width>
        <height>23</height>
       </rect>
@@ -223,7 +223,7 @@
     <property name="title">
      <string>被测选择区</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -247,6 +247,51 @@
        <widget class="QPushButton" name="sichuan">
         <property name="text">
          <string> 四川零点</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>30</y>
+      <width>171</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>被测通道excel列号</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>83</width>
+       <height>54</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="tongdao2">
+        <property name="text">
+         <string>通道1</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="tongdao1">
+        <property name="text">
+         <string> 通道2</string>
         </property>
         <property name="default">
          <bool>false</bool>
