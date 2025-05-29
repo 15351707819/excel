@@ -24,7 +24,7 @@ def read_table(inputpath):
 
         try:
             # 添加COMMENT=';'，就是忽略掉注释的地方comment=';'：如果某行以 ; 开头，该行会被作为注释行跳过，不会被读取。
-            # quotechar="'"：用单引号 ' 来包裹含有特殊字符或分隔符的字段内容。
+            # quotechar="'"：用单引号 ' 来包裹含有特殊字符或分隔符的字段内容。csv.QUOTE_NONE:pandas 在读取过程中，将非数字字段中的引号去除。数字字段会保持原样，不受影响。
             # on_bad_lines='skip'：遇到格式有问题的行时，将跳过，不会报错。
             df2 = pd.read_csv(inputpath, encoding='utf-8', sep=',', comment=';', quoting=csv.QUOTE_NONE, on_bad_lines='skip')
         except Exception as e:
@@ -52,7 +52,6 @@ def read_table(inputpath):
 
 
 def column_data(inputpath, brand, logic, channel):
-    print(1)
     my_data = []
     dataframe = read_table(inputpath)
     #  logic 指的是使用什么逻辑分析仪品牌，k指的值“kvigst”,z指的是“正点原子”
