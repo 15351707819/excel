@@ -144,10 +144,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def GetXinje(self):
         self.brand = '10'
+        print(self.brand)
 
     def Getsichuan(self):
         self.brand = '01'
-
+        print(self.brand)
     def GetKVIS(self):
         self.logic = 'k'
 

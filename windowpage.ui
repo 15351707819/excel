@@ -279,7 +279,7 @@
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <widget class="QPushButton" name="tongdao2">
+       <widget class="QPushButton" name="tongdao1">
         <property name="text">
          <string>通道1</string>
         </property>
@@ -289,7 +289,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QPushButton" name="tongdao1">
+       <widget class="QPushButton" name="tongdao2">
         <property name="text">
          <string> 通道2</string>
         </property>

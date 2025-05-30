@@ -106,6 +106,7 @@ def column_data(inputpath, brand, logic, channel):
                     # if 0.1 / 1000 < value < 20.0 / 1000:
                     my_data.append(
                         [column0_data[i], column0_data[i + 1], value])
+
     else:
         print(logic)
     return my_data
@@ -128,6 +129,7 @@ def Toexcel(inputpath, brand):
 def DrawPlot(inputpath, brand, logic, channel):
     result_excel = Excel_Data(inputpath, brand, logic,channel)
     result_excel.to_excel('result.xlsx', index=True)
+    print(type(result_excel))
     x = result_excel.index
     y = result_excel['diff'] * 1000
     myexcel1 = plt.figure()
