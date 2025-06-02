@@ -94,7 +94,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="average_2">
+       <widget class="QPushButton" name="count">
         <property name="text">
          <string> 计算次数</string>
         </property>

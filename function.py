@@ -17,47 +17,57 @@ def DrawPlot(result_cel: DataFrame):
 
 
 def DrawBargraph(result_cel: DataFrame):
-    value = round(result_cel['diff'] * 1000, 1)  # 对数据进行四舍五入，小数点保留一位
-    num_bins = 10
-    # 计算最大值和最小值
-    min_val = min(value)
-    max_val = max(value)
-    # 计算每个区间的宽度
-    interval_width = (min_val + max_val) / num_bins
+    values = round(result_cel['diff'] * 1000, 1)
+    # 设置柱形图柱子的个数
+    bar_num = 10
+    # 确定每个区间的大小
+    max_value = max(values) + 1
+    min_value = min(values)
+    interval_value = (max_value - min_value) / bar_num
     # 给x轴赋值
-    axis_x = [min_val + i * interval_width for i in range(num_bins)]
-    axis_x.append(max_val)
-    counts = {axis_x_start: 0 for axis_x_start in axis_x[:-1]}
-    for d in value:
-        for axis_x_start in axis_x[:-1]:
-            if axis_x_start <= d < axis_x[axis_x.index(axis_x_start) + 1]:
-                counts[axis_x_start] += 1
-
-    ###### 绘制柱状图########
-    mybar = plt2.bar(
-        range(
-            1,
-            num_bins + 1),
-        counts.values(),
-        align='center',
-        width=0.5)
-    plt2.xticks(range(1,
-                      num_bins + 1),
-                ['[{:.1f}-{:.1f})'.format(axis_x[i],
-                                          axis_x[i + 1]) for i in range(num_bins)])
+    bar_x = [min_value + interval_value * i for i in range(bar_num)]
+    bar_x.append(max_value)
+    # 给Y轴赋值，对每一个区间进行计数
+    # 对每个区间的计数值使用HASH表的方式进行计数
+    counts = {bar_start: 0 for bar_start in bar_x[:-1]}
+    for value in values:
+        for bar_start in bar_x[:-1]:
+            if bar_start <= value < bar_x[bar_x.index(bar_start) + 1]:
+                counts[bar_start] += 1
+    # #########  绘制柱状图 ###########
+    BarGraphs = plt2.bar(
+        range(1, bar_num+1), counts.values(), align='center', width=0.5
+    )
+    plt2.xticks(range(1, bar_num+1),
+                         ['[{:.1f}-{:.1f})'.format(bar_x[i],
+                                                   bar_x[i+1])for i in range(bar_num)])
     plt2.xlabel('t/ms')
     plt2.ylabel('count')
-    for bar in mybar:
+    for bar in BarGraphs:
         height = bar.get_height()
-        plt2.text(
-            bar.get_x() +
-            bar.get_width() /
-            2 -
-            0.2,
-            height +
-            0.3,
-            '%s' %
-            int(height),
-            size=10)
-    plt2.title('I/O \'s responding time')
+        plt2.text(bar.get_x()+bar.get_width()/2-0.2, height+0.4, '%s' % int(height), size=10)  # 为每个条形图添加文本
+    plt2.title(' IO \'s   responding   time ')
+    plt2.show()
 
+
+def GetMax(result_cel: DataFrame):
+    MaxValue = round(max(result_cel['diff']*1000), 6)
+    return MaxValue
+
+
+def GetMin(result_cel: DataFrame):
+    MinValue = round(min(result_cel['diff']*1000), 6)
+    return MinValue
+
+
+def GetCounts(result_cel: DataFrame):
+    Counts = len(result_cel['diff'])
+    return Counts
+
+
+def GetAverage(result_cel: DataFrame):
+    value = result_cel['diff']*1000
+    counts = len(value)
+    sum_value = sum(value)
+    average = round(sum_value / counts, 6)
+    return average

@@ -230,6 +230,8 @@ def GetCounts(inputpath, brand, logic, channel):
     value = result_excel['diff']
     length = len(value)
     return length
+
+
 # 可以通过len(test_data)，读取到行数，不包含第一行，第一行为索引行
 # test_data1 = df.iloc[:, 0]
 # result_data = []

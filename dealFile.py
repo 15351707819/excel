@@ -18,7 +18,7 @@ def read_table(inputpath):
             print(f"Read_csv appear Error:{e}")
             return None
         try:
-            df2.to_excel(outputpath,index=False)
+            df2.to_excel(outputpath, index=False)
             df1 = pd.read_excel(outputpath)
             return df1
         except Exception as e:
