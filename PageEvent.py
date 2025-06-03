@@ -52,7 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         filePath = fileinfo.absoluteFilePath()
         self.label.setText(filePath)
         self.input_path = str(self.label.text())
-        if self.input_path is None:
+        if self.input_path is None or self.input_path == '':
             self.flag = 0
         else:
             self.flag = 1
@@ -81,51 +81,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def DrawFigure(self):
         if self.flag == 0:
             QtWidgets.QMessageBox.information(
-                window.centralWidget(), "error", "文件路径不存在,请选择文件")
+                self, "error", "文件路径不存在,请选择文件")
         elif self.flag == 1:
             function.DrawPlot(self.DataFrame)
 
     def DrawBar(self):
         if self.flag == 0:
             QtWidgets.QMessageBox.information(
-                window.centralWidget(), "error", "文件路径不存在，请选择文件")
+                self, "error", "文件路径不存在，请选择文件")
         elif self.flag == 1:
             function.DrawBargraph(self.DataFrame)
 
     def ReceiveMax(self):
         if self.flag == 0:
             QtWidgets.QMessageBox.information(
-                window.centralWidget(), "error", "文件路径不存在，请选择文件")
+                self, "error", "文件路径不存在，请选择文件")
         elif self.flag == 1:
             self.maxvalue.setText(str(function.GetMax(self.DataFrame)))
 
     def ReceiveMin(self):
         if self.flag == 0:
             QtWidgets.QMessageBox.information(
-                window.centralWidget(), "error", "文件路径不存在，请选择文件"
+                self, "error", "文件路径不存在，请选择文件"
             )
         elif self.flag == 1:
             self.minvalue.setText(str(function.GetMin(self.DataFrame)))
 
     def AverageValue(self):
         if self.flag == 0:
-            QtWidgets.QMessageBox.Information(
-                window.centralWidget(), "error", "文件路径不存在，请选择文件"
+            QtWidgets.QMessageBox.information(
+                self, "error", "文件路径不存在，请选择文件"
             )
         elif self.flag == 1:
             self.avervalue.setText(str(function.GetAverage(self.DataFrame)))
 
     def ReceiveCounts(self):
         if self.flag == 0:
-            QtWidgets.QMessageBox.Information(
-                window.centralWidget(), "error", "文件路径不存在，请选择文件"
+            QtWidgets.QMessageBox.information(
+                self, "error", "文件路径不存在，请选择文件"
             )
         elif self.flag == 1:
             self.countsvalue.setText(str(function.GetCounts(self.DataFrame)))
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
