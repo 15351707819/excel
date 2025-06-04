@@ -1,14 +1,19 @@
 import sys
 
-
+import datetime
 from PyQt5.QtCore import QFileInfo
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog, QVBoxLayout, QApplication, QMessageBox, QWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5 import QtWidgets
 from windowpage import Ui_MainWindow
 from helpdiaglog import Ui_Dialog
+from version import Ui_Dialog as Version_Ui
 import dealFile
 import function
+
+# 版本生成日期
+APP_VERSION = "1.0.0"
+BUILD_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -45,6 +50,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.average.clicked.connect(self.AverageValue)
         self.count.clicked.connect(self.ReceiveCounts)
 
+        self.actionhelp.triggered.connect(self.HelpNews)
+        self.version.triggered.connect(self.VersionINFO)
+
     def upload(self):
         wordfile, _ = QFileDialog.getOpenFileName(
             self, "选择文件", "/", "Excel文件(*.xlsx;*.csv)")
@@ -66,17 +74,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         sender = self.sender()
         new_brand = sender.property('brand')
         self.brand = new_brand
-        print(self.brand)
 
     def GetLogic(self):
         sender = self.sender()
         self.logic = sender.property('logic')
-        print(self.logic)
 
     def GetChannel(self):
         sender = self.sender()
         self.channel = sender.property('channel')
-        print(self.channel)
 
     def DrawFigure(self):
         if self.flag == 0:
@@ -123,4 +128,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif self.flag == 1:
             self.countsvalue.setText(str(function.GetCounts(self.DataFrame)))
 
+    def HelpNews(self):
+        helpMessage = HelpDialog()
+        helpMessage.exec_()
 
+    def VersionINFO(self):
+        versionmessage = VersionDialog()
+        versionmessage.softversion.setText(APP_VERSION)
+        versionmessage.builddate.setText(BUILD_DATE)
+        versionmessage.exec_()
+
+
+class HelpDialog(QDialog, Ui_Dialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+
+class VersionDialog(QDialog, Version_Ui):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)

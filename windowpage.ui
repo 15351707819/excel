@@ -315,14 +315,31 @@
     <property name="title">
      <string> 帮助</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionhelp"/>
+    <addaction name="version"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionversion">
+   <property name="text">
+    <string>version</string>
+   </property>
+  </action>
+  <action name="actionVERSION">
+   <property name="text">
+    <string>version</string>
+   </property>
+  </action>
   <action name="actionhelp">
    <property name="text">
-    <string> help</string>
+    <string>help</string>
+   </property>
+  </action>
+  <action name="version">
+   <property name="text">
+    <string>version</string>
    </property>
   </action>
  </widget>
