@@ -13,7 +13,7 @@ def read_table(inputpath):
         outputpath = f"{filename}.xlsx"
 
         try:
-            df2 = pd.read_csv(inputpath, seq=',', encoding='utf-8', on_bad_lines='skip', comment=';', quoting=csv.QUOTE_NONE)
+            df2 = pd.read_csv(inputpath, sep=',', encoding='utf-8', on_bad_lines='skip', comment=';', quoting=csv.QUOTE_NONE)
         except Exception as e:
             print(f"Read_csv appear Error:{e}")
             return None
@@ -66,10 +66,10 @@ def column_data(inputpath, brand, logic, channel):
                             [column0_data[i + 1], column0_data[i], value])
     elif logic == 'z':
         if channel == 1:
-            column1_data = dataframe.iloc[:, 3]  # 正点原子第4列数据
+            column1_data = dataframe.iloc[:, 2]  # 正点原子第4列数据
             column0_data = dataframe.iloc[:, 1]  # 正点原子第2列数据
         elif channel == 2:
-            column1_data = dataframe.iloc[:, 2]  # 正点原子第3列数据
+            column1_data = dataframe.iloc[:, 3]  # 正点原子第3列数据
             column0_data = dataframe.iloc[:, 1]  # 正点原子第2列数据
         if brand == '01':
             for i in range(0, len(column1_data) - 1):
