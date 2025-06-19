@@ -9,9 +9,10 @@ from pandas import DataFrame
 def DrawPlot(result_cel: DataFrame):
     x = result_cel.index
     y = result_cel['diff'] * 1000
+    maxvalue = max(y)
     myexcel1 = plt.figure()
     plt.plot(x, y, 'bo', linestyle='-', linewidth=0.5, markersize=3)
-    plt.ylim(0, 100)
+    plt.ylim(0, maxvalue+maxvalue*4)
     plt.show()
     return myexcel1
 
