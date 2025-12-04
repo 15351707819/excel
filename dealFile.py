@@ -1,7 +1,7 @@
 import pandas as pd
 import csv
 import os
-
+import chardet
 
 def read_table(inputpath):
     if inputpath is None:
@@ -11,9 +11,14 @@ def read_table(inputpath):
     if fileType == '.csv':
         filename = os.path.splitext(inputpath)[0]
         outputpath = f"{filename}.xlsx"
+        with open(inputpath,'rb') as file:
+            raw_data = file.read()
+            result = chardet.detect(raw_data)
+            encoding = result['encoding']
+
 
         try:
-            df2 = pd.read_csv(inputpath, sep=',', encoding='utf-8', on_bad_lines='skip', comment=';', quoting=csv.QUOTE_NONE)
+            df2 = pd.read_csv(inputpath, sep=',', encoding=encoding, on_bad_lines='skip', comment=';', quoting=csv.QUOTE_NONE)
         except Exception as e:
             print(f"Read_csv appear Error:{e}")
             return None
