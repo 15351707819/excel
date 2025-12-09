@@ -12,7 +12,7 @@ import dealFile
 import function
 
 # 版本生成日期
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 BUILD_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
 
 
